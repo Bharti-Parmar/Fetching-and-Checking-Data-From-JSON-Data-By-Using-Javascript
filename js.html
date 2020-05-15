@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/jquery-2.2.4.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/data.js"></script>
+</head>
+<body>
+
+  <div class="container" style="cursor:pointer;">
+    <h2 class="mt-4 text-primary text-center">Question  / Answer fetching and checking by using JSON data in Javascript.</h2>
+
+    <div class="jumbotron mt-5" id="note">
+      <h3 class="text-center text-info"><b>Question_No.<span class="ml-2" id="q_no"></span> <span class="ml-2" id="ques"> </span></b> </h3>
+
+        <!-- <div class="row text-center mt-5"> -->
+          <!-- <div class="col-md-2"></div> -->
+
+          <div class="row">
+            <div class="col-md-10">
+              <div class="row ml-5 mt-5" id="option">
+                <div class="col-md-4 offset-md-2">
+                  <input type="radio" class="mr-2 ropt text-warning" >option 1
+                </div>
+                <div class="col-md-4 offset-md-2">
+                  <input type="radio" class="mr-2 ropt text-warning">option 2
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <span class="inline-block d-flex justify-content-center mt-5">
+          <input type="button" value="Next" class="btn btn-outline-success mr-2" id="next" onclick="check()">
+          <!-- <input type="button" value="Submit" class="btn btn-primary ml-2 d-none" id="submit"> -->
+        </span>
+
+      </div>
+
+  </div>
+
+<script>
+
+  var correct = 0, wrong=0;
+  var i = 0;
+
+  function parse(){
+    document.getElementById('q_no').innerHTML = i+1 ;
+    document.getElementById('ques').innerHTML =  data['mydata'][i]['question'];
+    var opt = '';
+    for(let j in data['mydata'][i]['option']){
+      opt = opt + '<div class="col-md-4 offset-md-2 text-danger h5"><input type="radio" value="' + j + '" name="optn" class="mr-2" id="ropt-'+j+'">'+ data['mydata'][i]['option'][j] +'</div>';
+        // document.getElementByClass('option').innerHTML =  data['mydata'][i]['option'];
+    }
+    document.getElementById('option').innerHTML =  opt;
+  }
+parse();
+
+  function check(){
+    var p = -1;
+    for(let x in data['mydata'][i]['option']){
+      if(document.getElementById('ropt-'+x).checked){
+        // p = data['mydata'][i]['option'][x];  // by using answer in string
+        p = x; // by using answer index / key
+      }
+    }
+    if(p == data['mydata'][i]['answer']){
+      correct++;
+    }
+    else{
+      wrong++;
+    }
+    i++;
+
+    if(i >= data['mydata'].length){
+      document.getElementById('note').innerHTML = '<h3 class="text-center text-info">Your Final Score Are:</h3><div class="mt-5 text-center text-primary h5">Correct:<span class="text-success ml-3">'+correct+'</span></div><div class="text-center mt-3 text-primary h5">Wrong:<span class="text-danger ml-3">'+wrong+'</span></div>';
+    }
+    else{
+      parse();
+    }
+
+    // var p = document.getElementById('ropt').value;
+    // alert(p);
+  }
+
+
+</script>
+
+</body>
+</html>
